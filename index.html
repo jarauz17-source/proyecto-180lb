@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Plan Fitness Jose</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ec;--bg2:#eae6de;--white:#fff;--black:#1a1a1a;
+  --accent:#c93a18;--a2:#d4840a;--border:#d9d4cb;
+  --text:#1a1a1a;--muted:#6b6560;--green:#2e7d52;--card:#fff;
+}
+*{margin:0;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+html{font-size:16px;-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
+
+/* HERO */
+.hero{background:#1a1a1a;padding:52px 40px 40px;position:relative;overflow:hidden;}
+.hero::before{content:'FUERZA';position:absolute;right:-20px;top:-10px;font-family:'Bebas Neue',sans-serif;font-size:160px;color:#242424;letter-spacing:-4px;line-height:1;pointer-events:none;}
+.hero-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--a2);margin-bottom:12px;font-weight:600;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,84px);line-height:.9;letter-spacing:2px;color:#f4f1ec;}
+.hero h1 span{color:var(--accent);}
+.hero-sub{margin-top:16px;color:#aaa;font-size:14px;max-width:520px;line-height:1.7;}
+.stats-bar{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:20px;margin-top:28px;padding-top:22px;border-top:1px solid #333;}
+.stat{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:1px;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--a2);letter-spacing:1px;}
+.stat-lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#777;}
+
+/* TABS — Safari-compatible sticky + touch scroll */
+.tabs-wrap{position:-webkit-sticky;position:sticky;top:0;background:var(--white);z-index:200;-webkit-box-shadow:0 2px 10px rgba(0,0,0,.08);box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.tabs{display:-webkit-flex;display:flex;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;}
+.tabs::-webkit-scrollbar{display:none;}
+/* Using <a> tags instead of <button> for Safari local file compatibility */
+.tab{display:inline-block;padding:15px 20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;-webkit-transition:all .2s;transition:all .2s;background:none;text-decoration:none;-webkit-user-select:none;user-select:none;-webkit-flex-shrink:0;flex-shrink:0;font-family:'DM Sans',sans-serif;}
+.tab:hover{color:var(--black);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* SECTIONS */
+.section{display:none;padding:36px 40px 100px;max-width:900px;margin:0 auto;}
+.section.active{display:block;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;margin-bottom:6px;color:var(--black);}
+.sec-title span{color:var(--accent);}
+.sec-desc{color:var(--muted);font-size:13px;margin-bottom:28px;line-height:1.8;max-width:640px;}
+.sdiv{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--a2);font-weight:700;margin:28px 0 14px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;}
+.sdiv::after{content:'';-webkit-flex:1;flex:1;height:2px;background:var(--bg2);}
+
+/* BADGE */
+.pbadge{display:inline-block;background:var(--accent);color:#fff;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;padding:6px 14px;margin-bottom:22px;border-radius:2px;}
+.pbadge.amber{background:var(--a2);}
+.pbadge.green{background:var(--green);}
+
+/* INFO PILLS */
+.info-pills{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.pill{background:var(--white);border:1px solid var(--border);padding:5px 14px;font-size:12px;font-weight:600;color:var(--black);border-radius:20px;}
+.pill span{color:var(--muted);font-weight:400;}
+
+/* DAY / ACCORDION CARDS */
+.day-grid{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:12px;}
+.day-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;-webkit-box-shadow:0 1px 6px rgba(0,0,0,.06);box-shadow:0 1px 6px rgba(0,0,0,.06);}
+.day-header{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:14px;padding:16px 20px;background:var(--bg2);cursor:pointer;-webkit-user-select:none;user-select:none;border-bottom:1px solid var(--border);}
+.day-card.open .day-header{background:var(--black);}
+.day-card.open .day-name{color:#f4f1ec;}
+.day-card.open .day-focus{color:#999;}
+.day-card.open .day-num{color:var(--accent);}
+.day-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent);line-height:1;min-width:40px;}
+.day-info{-webkit-flex:1;flex:1;}
+.day-name{font-weight:700;font-size:15px;color:var(--black);}
+.day-focus{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.day-dur{font-size:11px;color:var(--a2);letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.chev{width:14px;height:14px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);-webkit-transform:rotate(45deg);transform:rotate(45deg);-webkit-transition:-webkit-transform .3s;transition:transform .3s;margin-left:6px;-webkit-flex-shrink:0;flex-shrink:0;}
+.day-card.open .chev{-webkit-transform:rotate(-135deg);transform:rotate(-135deg);border-color:#777;}
+.day-body{display:none;padding:20px;background:var(--white);}
+.day-card.open .day-body{display:block;}
+
+/* TABLES */
+.ex-block{margin-bottom:20px;}
+.ebt{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--a2);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--bg2);}
+table{width:100%;border-collapse:collapse;}
+thead tr{border-bottom:2px solid var(--bg2);}
+th{text-align:left;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:7px 8px;font-weight:700;background:var(--bg);}
+td{padding:9px 8px;font-size:13px;border-bottom:1px solid var(--bg2);vertical-align:top;color:var(--text);}
+tr:last-child td{border-bottom:none;}
+.exn{font-weight:700;color:var(--black);}
+.exd{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.bs{display:inline-block;background:var(--bg2);border:1px solid var(--border);padding:3px 9px;font-size:12px;font-weight:700;color:var(--black);border-radius:2px;}
+.br{font-size:12px;color:var(--a2);font-weight:700;}
+
+/* YOUTUBE LINK */
+.yt-link{display:inline-flex;-webkit-align-items:center;align-items:center;gap:5px;margin-top:5px;color:#c00;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.5px;}
+.yt-link:hover{text-decoration:underline;}
+.yt-icon{width:16px;height:11px;background:#c00;border-radius:2px;display:inline-flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;-webkit-flex-shrink:0;flex-shrink:0;}
+.yt-icon::after{content:'';border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent #fff;}
+
+/* TIP BOXES */
+.tip{background:#fef9f0;border:1px solid #f0d89a;border-left:4px solid var(--a2);padding:13px 16px;margin-top:14px;font-size:13px;color:#5a4a1a;line-height:1.7;border-radius:2px;}
+.tip strong{color:var(--black);}
+.tip-green{background:#f0f9f4;border:1px solid #b8e0c8;border-left:4px solid var(--green);padding:13px 16px;margin-top:14px;font-size:13px;color:#2a4a35;line-height:1.7;border-radius:2px;}
+.tip-red{background:#fff5f3;border:1px solid #f5c0b0;border-left:4px solid var(--accent);padding:13px 16px;margin-top:14px;font-size:13px;color:#5a1a1a;line-height:1.7;border-radius:2px;}
+
+/* WEEK SCHEDULE */
+.week-grid{display:-webkit-flex;display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;}
+.wday{border-radius:4px;padding:12px 8px;text-align:center;min-width:72px;-webkit-flex-shrink:0;flex-shrink:0;}
+.wday.train{background:var(--accent);color:#fff;}
+.wday.cardio{background:var(--green);color:#fff;}
+.wday.rest{background:var(--bg2);color:var(--muted);}
+.wday-name{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.wday-type{font-size:11px;font-weight:600;line-height:1.3;}
+
+/* WHY ZONE 2 */
+.why-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:12px;margin:16px 0;}
+.why-item{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px 16px;-webkit-flex:1 1 220px;flex:1 1 220px;}
+.why-icon{font-size:22px;margin-bottom:6px;}
+.why-title{font-weight:700;font-size:13px;color:var(--black);margin-bottom:3px;}
+.why-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* ZONE CARD */
+.zone-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:14px;}
+.zone-header{padding:16px 20px;background:var(--green);}
+.zone-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:1px;}
+.zone-sub{font-size:11px;color:rgba(255,255,255,.75);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.zone-body{padding:20px;}
+.zone-row{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;padding:12px 0;border-bottom:1px solid var(--bg2);gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.zone-row:last-child{border-bottom:none;}
+.zone-label{font-weight:600;font-size:14px;color:var(--black);}
+.zone-detail{font-size:12px;color:var(--muted);margin-top:2px;}
+.zone-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);text-align:right;}
+.zone-val small{display:block;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);}
+
+/* CARDIO ROWS */
+.cardio-row{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;padding:14px 0;border-bottom:1px solid var(--bg2);gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.cardio-row:last-child{border-bottom:none;}
+.cardio-label{font-weight:600;font-size:14px;color:var(--black);}
+.cardio-detail{font-size:12px;color:var(--muted);margin-top:2px;}
+.cardio-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--a2);text-align:right;}
+
+/* PLATE */
+.plate-visual{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:24px;margin-bottom:20px;}
+.plate-title{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--black);letter-spacing:1px;margin-bottom:4px;}
+.plate-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.plate-sections{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.plate-sec{border-radius:4px;padding:16px 14px;text-align:center;-webkit-flex:1 1 100px;flex:1 1 100px;}
+.plate-sec.veg{background:#e8f5e9;border:1px solid #c8e6c9;}
+.plate-sec.pro{background:#e3f2fd;border:1px solid #bbdefb;}
+.plate-sec.carb{background:#fff8e1;border:1px solid #ffe082;}
+.plate-pct{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;}
+.plate-sec.veg .plate-pct{color:#2e7d52;}
+.plate-sec.pro .plate-pct{color:#1565c0;}
+.plate-sec.carb .plate-pct{color:#d4840a;}
+.plate-name{font-size:12px;font-weight:700;margin-top:4px;color:var(--black);}
+.plate-example{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+/* MEALS */
+.meal-block{background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:12px;overflow:hidden;}
+.meal-head{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:14px;padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.meal-time{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--a2);min-width:54px;}
+.meal-title{font-weight:700;font-size:15px;color:var(--black);}
+.meal-tag{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+.meal-body{padding:14px 18px;}
+.opt-grid{display:-webkit-flex;display:flex;gap:10px;-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.opt-item{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px 14px;-webkit-flex:1 1 200px;flex:1 1 200px;}
+.opt-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:6px;}
+.opt-items{list-style:none;}
+.opt-items li{font-size:13px;color:var(--text);padding:3px 0;display:-webkit-flex;display:flex;-webkit-align-items:baseline;align-items:baseline;gap:6px;}
+.opt-items li::before{content:'·';color:var(--a2);font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;}
+
+/* RULES */
+.rule-grid{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:10px;margin-top:16px;}
+.rule-item{display:-webkit-flex;display:flex;gap:12px;-webkit-align-items:flex-start;align-items:flex-start;padding:13px 16px;background:var(--card);border:1px solid var(--border);border-radius:4px;}
+.rule-icon{font-size:20px;-webkit-flex-shrink:0;flex-shrink:0;line-height:1.2;}
+.rule-text strong{display:block;font-weight:700;font-size:14px;margin-bottom:2px;color:var(--black);}
+.rule-text span{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* CORE GRID */
+.core-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+.core-item{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px;-webkit-flex:1 1 200px;flex:1 1 200px;}
+.core-icon{font-size:26px;margin-bottom:6px;}
+.core-name{font-weight:700;font-size:14px;color:var(--black);margin-bottom:3px;}
+.core-why{font-size:12px;color:var(--muted);line-height:1.5;}
+.core-badge{display:inline-block;background:var(--bg2);border:1px solid var(--border);padding:2px 8px;font-size:10px;font-weight:700;color:var(--black);border-radius:2px;margin-top:6px;}
+
+/* PHASE + PROGRESS */
+.phase-grid{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:12px;margin-bottom:24px;}
+.phase-row{display:-webkit-flex;display:flex;gap:14px;-webkit-align-items:flex-start;align-items:flex-start;padding:16px 18px;background:var(--card);border:1px solid var(--border);border-radius:4px;}
+.phase-num{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--accent);line-height:1;min-width:34px;}
+.phase-content strong{display:block;font-weight:700;margin-bottom:4px;color:var(--black);}
+.phase-content span{font-size:12px;color:var(--muted);line-height:1.7;}
+.progress-grid{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:12px;}
+.progress-card{background:var(--card);border:1px solid var(--border);padding:18px;border-radius:4px;}
+.prog-header{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;margin-bottom:10px;}
+.prog-title{font-weight:600;font-size:15px;color:var(--black);}
+.prog-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--a2);font-weight:700;background:#fef3d8;padding:3px 10px;border-radius:2px;}
+.prog-bar-bg{background:var(--bg2);height:4px;border-radius:3px;margin-bottom:8px;}
+.prog-bar-fill{height:4px;background:-webkit-linear-gradient(left,var(--accent),var(--a2));background:linear-gradient(to right,var(--accent),var(--a2));border-radius:3px;}
+.prog-desc{font-size:12px;color:var(--muted);line-height:1.7;}
+
+/* RECIPES */
+.recipe-grid{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:12px;}
+.recipe-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.recipe-header{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:12px;padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--border);cursor:pointer;-webkit-user-select:none;user-select:none;}
+.recipe-card.open .recipe-header{background:var(--black);}
+.recipe-card.open .recipe-title{color:#f4f1ec;}
+.recipe-card.open .recipe-meta{color:#aaa;}
+.recipe-card.open .chev{border-color:#777;-webkit-transform:rotate(-135deg);transform:rotate(-135deg);}
+.recipe-emoji{font-size:24px;-webkit-flex-shrink:0;flex-shrink:0;}
+.recipe-info{-webkit-flex:1;flex:1;}
+.recipe-title{font-weight:700;font-size:15px;color:var(--black);}
+.recipe-meta{font-size:11px;color:var(--muted);margin-top:2px;}
+.rkcal{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--a2);-webkit-flex-shrink:0;flex-shrink:0;text-align:right;}
+.rkcal small{display:block;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.recipe-body{display:none;padding:18px 20px;}
+.recipe-card.open .recipe-body{display:block;}
+.recipe-cols{display:-webkit-flex;display:flex;gap:18px;-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.recipe-cols > div{-webkit-flex:1 1 200px;flex:1 1 200px;}
+.rsec{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--a2);font-weight:700;margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid var(--bg2);}
+.ing-list{list-style:none;}
+.ing-list li{display:-webkit-flex;display:flex;gap:6px;padding:5px 0;border-bottom:1px solid var(--bg2);font-size:13px;}
+.ing-list li:last-child{border-bottom:none;}
+.ing-list li::before{content:'\2014';color:var(--accent);font-weight:700;-webkit-flex-shrink:0;flex-shrink:0;}
+.ing-amt{color:var(--a2);font-weight:700;font-size:12px;min-width:54px;-webkit-flex-shrink:0;flex-shrink:0;}
+.step-list{list-style:none;counter-reset:s;}
+.step-list li{counter-increment:s;display:-webkit-flex;display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--bg2);font-size:13px;line-height:1.5;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:counter(s);background:var(--accent);color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;min-width:18px;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;margin-top:2px;}
+.macro-pills{display:-webkit-flex;display:flex;gap:7px;-webkit-flex-wrap:wrap;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--bg2);}
+.mpill{background:var(--bg);border:1px solid var(--border);padding:3px 10px;font-size:11px;font-weight:700;color:var(--black);border-radius:20px;}
+.mpill span{color:var(--muted);font-weight:400;}
+.rtip{background:#f0f9f4;border-left:3px solid var(--green);padding:10px 13px;margin-top:12px;font-size:12px;color:#2a4a35;line-height:1.6;border-radius:2px;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{padding:36px 20px 28px;}
+  .hero::before{font-size:90px;}
+  .section{padding:24px 16px 80px;}
+  .tab{padding:13px 14px;font-size:10px;letter-spacing:1px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Plan Revisado v2 · 12 semanas</div>
+  <h1>FUERZA<br><span>ZONA 2</span><br>&amp; CORE</h1>
+  <p class="hero-sub">Menos HIIT, mas fuerza real, Zona 2 cardiovascular, nutricion para vida corporativa en Panama. Incluye videos de referencia para cada ejercicio.</p>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val">93 kg</div><div class="stat-lbl">Peso actual</div></div>
+    <div class="stat"><div class="stat-val">179 cm</div><div class="stat-lbl">Estatura</div></div>
+    <div class="stat"><div class="stat-val">114 cm</div><div class="stat-lbl">Cintura</div></div>
+    <div class="stat"><div class="stat-val">3 dias</div><div class="stat-lbl">Por semana</div></div>
+    <div class="stat"><div class="stat-val">45-55 min</div><div class="stat-lbl">Por sesion</div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs" id="mainTabs">
+    <a class="tab active" href="#" data-tab="semana">Semana Tipo</a>
+    <a class="tab" href="#" data-tab="rutina">Rutina Fuerza</a>
+    <a class="tab" href="#" data-tab="zona2">Zona 2 Cardio</a>
+    <a class="tab" href="#" data-tab="core">Core Inteligente</a>
+    <a class="tab" href="#" data-tab="nutricion">Nutricion Real</a>
+    <a class="tab" href="#" data-tab="recetas">Recetas Panama</a>
+    <a class="tab" href="#" data-tab="progreso">Progresion</a>
+  </div>
+</div>
+
+<!-- ===================== SEMANA TIPO ===================== -->
+<div id="tab-semana" class="section active">
+  <p class="sec-title">TU <span>SEMANA TIPO</span></p>
+  <p class="sec-desc">Una semana predecible. Lo unico importante es no hacer 2 dias de fuerza seguidos. Los dias de Zona 2 pueden adaptarse — incluyendo caminar al lado del campo de futbol.</p>
+
+  <div class="week-grid">
+    <div class="wday train"><div class="wday-name">Lun</div><div class="wday-type">Fuerza A</div></div>
+    <div class="wday cardio"><div class="wday-name">Mar</div><div class="wday-type">Zona 2</div></div>
+    <div class="wday train"><div class="wday-name">Mie</div><div class="wday-type">Fuerza B</div></div>
+    <div class="wday cardio"><div class="wday-name">Jue</div><div class="wday-type">Zona 2</div></div>
+    <div class="wday train"><div class="wday-name">Vie</div><div class="wday-type">Fuerza C</div></div>
+    <div class="wday rest"><div class="wday-name">Sab</div><div class="wday-type">Descanso activo</div></div>
+    <div class="wday rest"><div class="wday-name">Dom</div><div class="wday-type">Descanso total</div></div>
+  </div>
+
+  <div class="info-pills">
+    <div class="pill">3x Fuerza <span>45-55 min</span></div>
+    <div class="pill">2x Zona 2 <span>25-35 min</span></div>
+    <div class="pill">Total semanal <span>~3h activo</span></div>
+    <div class="pill">Jueves <span>puede ser junto al futbol</span></div>
+  </div>
+
+  <div class="sdiv">Descripcion de cada dia</div>
+  <div class="day-grid">
+    <div class="day-card" id="sw1">
+      <div class="day-header" onclick="toggleCard('sw1')">
+        <div class="day-num">A</div>
+        <div class="day-info"><div class="day-name">Fuerza A — Piernas + Core</div><div class="day-focus">Leg Press · Sentadilla · Hip Thrust · Romanian DL</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Los musculos mas grandes del cuerpo consumen mas calorias en reposo. El Hip Thrust y Romanian Deadlift activan gluteos e isquiotibiales — mejoran la postura y reducen el volumen de la zona lumbar.</p>
+        <div class="tip"><strong>Estructura:</strong> 5 min caminata inclinada → 35 min fuerza → 8 min core → 5 min caminata vuelta a calma.</div>
+      </div>
+    </div>
+    <div class="day-card" id="sw2">
+      <div class="day-header" onclick="toggleCard('sw2')">
+        <div class="day-num">B</div>
+        <div class="day-info"><div class="day-name">Fuerza B — Pecho + Espalda + Hombros</div><div class="day-focus">Press · Remo Cable · Jalon · Hombros</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">El cable crossover Ergofit que tienes es ideal — permite angulos que las mancuernas no replican, especialmente para pecho y espalda media. El trabajo de espalda corrige la postura de anos de escritorio.</p>
+        <div class="tip">Fortalecer los pectorales bajo la grasa cambia la apariencia aunque la grasa en si solo se pierde con el deficit calorico global.</div>
+      </div>
+    </div>
+    <div class="day-card" id="sw3">
+      <div class="day-header" onclick="toggleCard('sw3')">
+        <div class="day-num">C</div>
+        <div class="day-info"><div class="day-name">Fuerza C — Full Body Metabolico</div><div class="day-focus">Circuito de fuerza · Descansos 60-75 seg · + 15 min Zona 2</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Circuito de fuerza con descansos cortos. Eleva la frecuencia cardiaca de forma sostenida sin los picos de HIIT. Finaliza con 15 min de Zona 2 en bicicleta o cinta.</p>
+        <div class="tip-green"><strong>El unico dia donde se combinan fuerza + cardio</strong> porque la sesion de fuerza es mas corta para dejar espacio al Zona 2.</div>
+      </div>
+    </div>
+    <div class="day-card" id="sw4">
+      <div class="day-header" onclick="toggleCard('sw4')">
+        <div class="day-num" style="font-size:18px;min-width:40px">Z2</div>
+        <div class="day-info"><div class="day-name">Zona 2 — Martes y Jueves</div><div class="day-focus">Caminata inclinada · Eliptica · Bicicleta</div></div>
+        <div class="day-dur">25-35 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">25-35 min a intensidad moderada-baja. Debes poder mantener una conversacion completa sin ahogarte. Si no puedes hablar con fluidez, baja la intensidad.</p>
+        <div class="tip-green"><strong>Truco Jueves:</strong> Camina al lado del campo de futbol mientras los chicos entrenan. 30 min de caminata sostenida es Zona 2 perfecta — sin necesidad de ir al gimnasio.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RUTINA FUERZA ===================== -->
+<div id="tab-rutina" class="section">
+  <p class="sec-title">RUTINA <span>FUERZA</span></p>
+  <p class="sec-desc">Adaptada a tu gimnasio: Leg Press Body-Solid, Cable Ergofit Dual Cross, mancuernas, kettlebells y banco ajustable. Cada ejercicio incluye un video de referencia en YouTube.</p>
+  <div class="pbadge">SEMANAS 1-4 · FASE ADAPTACION · PRIORIZA LA TECNICA</div>
+
+  <div class="day-grid">
+    <!-- DIA A -->
+    <div class="day-card" id="dA">
+      <div class="day-header" onclick="toggleCard('dA')">
+        <div class="day-num">A</div>
+        <div class="day-info"><div class="day-name">Dia A — Piernas + Core</div><div class="day-focus">Cuadriceps · Isquiotibiales · Gluteos</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <div class="ex-block"><div class="ebt">Calentamiento — 5 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Duracion</th></tr></thead><tbody>
+            <tr><td><div class="exn">Caminata en cinta inclinada</div><div class="exd">5-6 km/h, inclinacion 3%</div></td><td>4 min</td></tr>
+            <tr><td><div class="exn">Circulos de cadera</div><div class="exd">10 circulos cada lado de pie</div></td><td>1 min</td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Bloque Principal — 35 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Series x Reps</th><th>Descanso</th></tr></thead><tbody>
+            <tr><td>
+              <div class="exn">Leg Press</div>
+              <div class="exd">Pies al ancho de caderas, empuja con talones, descenso 3 seg</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=IZxyjW7MPJQ" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 12</span></td><td><span class="br">90 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Goblet Squat con Kettlebell</div>
+              <div class="exd">Kettlebell al pecho, espalda recta, desciende lento, sube firme</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=MxsFDJCn9gc" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 10</span></td><td><span class="br">90 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Hip Thrust con mancuerna</div>
+              <div class="exd">Hombros sobre banco, mancuerna en cadera, aprieta gluteos 1 seg arriba</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=xDmFkJxPzeM" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 12</span></td><td><span class="br">75 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Romanian Deadlift con mancuernas</div>
+              <div class="exd">Espalda plana, bisagra de cadera, baja hasta sentir tension en isquiotibiales</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=JCXUYuzwNrM" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 10</span></td><td><span class="br">90 seg</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Core — 8 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Series x Tiempo</th><th>Descanso</th></tr></thead><tbody>
+            <tr><td>
+              <div class="exn">Plank</div>
+              <div class="exd">Cuerpo recto, gluteos activos. Sem 1: 20 seg +5 seg/sem</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=yeKv5oX_6GY" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 20-40 seg</span></td><td><span class="br">45 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Dead Bug</div>
+              <div class="exd">Espalda baja pegada al suelo, extiende brazo + pierna opuestos, vuelve lento</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=g_BYB0R-4Ws" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 8 c/lado</span></td><td><span class="br">45 seg</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="tip">Termina con <strong>5 min de caminata suave</strong> en cinta sin inclinacion para bajar la frecuencia cardiaca gradualmente.</div>
+      </div>
+    </div>
+
+    <!-- DIA B -->
+    <div class="day-card" id="dB">
+      <div class="day-header" onclick="toggleCard('dB')">
+        <div class="day-num">B</div>
+        <div class="day-info"><div class="day-name">Dia B — Pecho + Espalda + Hombros</div><div class="day-focus">Pectorales · Dorsal · Trapecio · Deltoides</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <div class="ex-block"><div class="ebt">Calentamiento — 5 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Duracion</th></tr></thead><tbody>
+            <tr><td><div class="exn">Bicicleta spinning</div><div class="exd">Resistencia baja, cadencia libre</div></td><td>3 min</td></tr>
+            <tr><td><div class="exn">Rotaciones de hombros + apertura de pecho</div><div class="exd">Brazos en circulos, luego codos atras para abrir pecho</div></td><td>2 min</td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Bloque Principal — 35 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Series x Reps</th><th>Descanso</th></tr></thead><tbody>
+            <tr><td>
+              <div class="exn">Press de pecho con mancuernas (banco plano)</div>
+              <div class="exd">Codos a 45 grados del torso. Descenso 2-3 seg, empuje controlado</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=VmB1G1K7v94" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 12</span></td><td><span class="br">90 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Remo en cable sentado (Ergofit)</div>
+              <div class="exd">Codos pegados, jala hacia el ombligo, aprieta omoplatos 1 seg</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=GZbfZ033f74" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 12</span></td><td><span class="br">90 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Jalon al pecho en cable (lat pulldown)</div>
+              <div class="exd">Agarre ancho, leve inclinacion atras, lleva barra a claviculas</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=CAwf7n6Luuc" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 12</span></td><td><span class="br">90 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Press de hombros con mancuernas sentado</div>
+              <div class="exd">Codos a 90 grados al inicio, no bloquees el codo arriba</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 10</span></td><td><span class="br">75 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Remo con mancuerna unilateral</div>
+              <div class="exd">Codo apunta al techo, lleva la mancuerna a la cadera</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=pYcpY20QaE8" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">2 x 10 c/lado</span></td><td><span class="br">60 seg</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Core — 8 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Series x Reps</th><th>Descanso</th></tr></thead><tbody>
+            <tr><td>
+              <div class="exn">Pallof Press en cable</div>
+              <div class="exd">Polea a altura de pecho, de pie lateral, extiende brazos y resiste la rotacion</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=AH_QZLm_0-s" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 10 c/lado</span></td><td><span class="br">45 seg</span></td></tr>
+            <tr><td>
+              <div class="exn">Bird Dog</div>
+              <div class="exd">En cuatro patas, extiende brazo y pierna opuestos, pausa 2 seg</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=wiFNA3sqjCA" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">3 x 8 c/lado</span></td><td><span class="br">45 seg</span></td></tr>
+          </tbody></table>
+        </div>
+        <div class="tip">El <strong>Pallof Press</strong> es el ejercicio mas subestimado para el abdomen. Entrena la estabilidad rotacional — lo que falta cuando hay grasa abdominal elevada y musculatura debil.</div>
+      </div>
+    </div>
+
+    <!-- DIA C -->
+    <div class="day-card" id="dC">
+      <div class="day-header" onclick="toggleCard('dC')">
+        <div class="day-num">C</div>
+        <div class="day-info"><div class="day-name">Dia C — Full Body Metabolico</div><div class="day-focus">Circuito de fuerza · 60-75 seg descanso · + 15 min Zona 2</div></div>
+        <div class="day-dur">50 min</div><div class="chev"></div>
+      </div>
+      <div class="day-body">
+        <div class="ex-block"><div class="ebt">Calentamiento — 5 min</div>
+          <table><thead><tr><th>Ejercicio</th><th>Duracion</th></tr></thead><tbody>
+            <tr><td><div class="exn">Caminata inclinada</div><div class="exd">6-7 km/h, inclinacion 4%</div></td><td>5 min</td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Circuito — 3 rondas, 30 min</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">6 ejercicios seguidos, 60-75 seg descanso entre rondas.</p>
+          <table><thead><tr><th>Ejercicio</th><th>Reps</th><th>Equipo</th></tr></thead><tbody>
+            <tr><td>
+              <div class="exn">Kettlebell Swing</div>
+              <div class="exd">Bisagra de cadera explosiva — no es una sentadilla</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=sSESeQAir2M" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">15</span></td><td>Kettlebell</td></tr>
+            <tr><td>
+              <div class="exn">Sentadilla con mancuernas</div>
+              <div class="exd">Descenso controlado 2 seg, subida firme</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=U4s4mEQ5VOU" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">12</span></td><td>Mancuernas</td></tr>
+            <tr><td>
+              <div class="exn">Remo en cable unilateral de pie</div>
+              <div class="exd">Polea baja, jala hacia la cadera, rota levemente el tronco</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=Yd5AzCijT6Y" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">10 c/lado</span></td><td>Cable</td></tr>
+            <tr><td>
+              <div class="exn">Step-up con mancuerna al banco</div>
+              <div class="exd">Impulsa con la pierna que esta arriba, no te apoyes en el suelo</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=dQqApCGd5Ss" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">10 c/pierna</span></td><td>Banco + mancuerna</td></tr>
+            <tr><td>
+              <div class="exn">Press de cable a un brazo (hombro)</div>
+              <div class="exd">Polea baja, de pie, un brazo a la vez</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=Pr8Bp8l2l7E" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">10 c/lado</span></td><td>Cable</td></tr>
+            <tr><td>
+              <div class="exn">Farmer Walk</div>
+              <div class="exd">Mancuernas pesadas, camina erguido — activa core completo y trapecios</div>
+              <a class="yt-link" href="https://www.youtube.com/watch?v=Fkzk_RqlYig" target="_blank" rel="noopener"><span class="yt-icon"></span>Ver tecnica en YouTube</a>
+            </td><td><span class="bs">30 seg</span></td><td>Mancuernas</td></tr>
+          </tbody></table>
+        </div>
+        <div class="ex-block"><div class="ebt">Zona 2 Finisher — 15 min</div>
+          <table><thead><tr><th>Opcion</th><th>Configuracion</th></tr></thead><tbody>
+            <tr><td><div class="exn">Caminata inclinada</div><div class="exd">Conversacion posible en todo momento</div></td><td>6 km/h · 6-8%</td></tr>
+            <tr><td><div class="exn">Bicicleta spinning</div><div class="exd">Cadencia 70-80 RPM</div></td><td>Resistencia baja</td></tr>
+          </tbody></table>
+        </div>
+        <div class="tip-green">El <strong>Farmer Walk</strong> es el ejercicio mas funcional y mas ignorado del gimnasio. Activa core, trapecios y antebrazos. Usalo en el espacio frente al cable crossover.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ZONA 2 ===================== -->
+<div id="tab-zona2" class="section">
+  <p class="sec-title">ZONA 2 <span>CARDIOVASCULAR</span></p>
+  <p class="sec-desc">La forma mas efectiva y sostenible de quemar grasa para alguien de 42 anos que regresa al ejercicio. No es "ir mas despacio" — es un estado fisiologico especifico.</p>
+
+  <div class="why-grid">
+    <div class="why-item"><div class="why-icon">&#x1F525;</div><div class="why-title">Quema preferentemente grasa</div><div class="why-desc">En Zona 2, el cuerpo usa principalmente acidos grasos como combustible. Exactamente lo que necesitas para reducir la grasa visceral abdominal.</div></div>
+    <div class="why-item"><div class="why-icon">&#x1F6E1;</div><div class="why-title">Sin estres para el cuerpo</div><div class="why-desc">El HIIT eleva el cortisol significativamente. A los 42 anos con cintura alta, el cortisol ya es parte del problema. Zona 2 lo reduce.</div></div>
+    <div class="why-item"><div class="why-icon">&#x1F4AA;</div><div class="why-title">Mejora la recuperacion</div><div class="why-desc">Entre sesiones de fuerza, el Zona 2 mejora la circulacion y acelera la recuperacion muscular sin anadir estres al sistema nervioso.</div></div>
+    <div class="why-item"><div class="why-icon">&#x23F1;</div><div class="why-title">Sostenible a largo plazo</div><div class="why-desc">Puedes hacer Zona 2 anos seguidos sin burnout. El HIIT tiene rendimientos decrecientes — el cuerpo se adapta y necesita mas intensidad.</div></div>
+  </div>
+
+  <div class="sdiv">Como identificar la Zona 2</div>
+  <div class="zone-card">
+    <div class="zone-header">
+      <div class="zone-title">La Prueba del Habla</div>
+      <div class="zone-sub">Sin pulsometro · El metodo mas preciso para principiantes</div>
+    </div>
+    <div class="zone-body">
+      <div class="zone-row">
+        <div><div class="zone-label">Muy facil — demasiado lento</div><div class="zone-detail">Puedes cantar. Respiracion normal. Esto es Zona 1 — util para calentamiento.</div></div>
+        <div class="zone-val" style="color:var(--muted)">Z1</div>
+      </div>
+      <div class="zone-row">
+        <div><div class="zone-label">Zona 2 correcta — tu objetivo</div><div class="zone-detail">Puedes mantener conversacion de oraciones completas pero sientes que trabajas. Ligero esfuerzo continuo.</div></div>
+        <div class="zone-val" style="color:var(--green)">OK ✓</div>
+      </div>
+      <div class="zone-row">
+        <div><div class="zone-label">Demasiado intenso — baja</div><div class="zone-detail">Solo puedes decir frases cortas. Necesitas pausar para respirar. Saliste de Zona 2.</div></div>
+        <div class="zone-val" style="color:var(--accent)">Z3+</div>
+      </div>
+      <div class="tip-green" style="margin-top:14px">Con pulsometro: tu Zona 2 es ~130-145 ppm. Formula rapida para Jose: 180 - 42 = 138 ppm como referencia central.</div>
+    </div>
+  </div>
+
+  <div class="sdiv">Opciones en tu gimnasio</div>
+  <div class="day-card" style="border:1px solid var(--border)">
+    <div class="day-header" style="cursor:default;background:var(--bg2)">
+      <div class="day-num" style="color:var(--green);font-size:16px;min-width:40px">Z2</div>
+      <div class="day-info"><div class="day-name">Sesion Zona 2 — Mar y Jue</div><div class="day-focus">25-35 min · Elige la opcion que mas disfrutes</div></div>
+      <div class="day-dur" style="color:var(--green)">25-35 min</div>
+    </div>
+    <div class="day-body" style="display:block">
+      <div class="cardio-row">
+        <div><div class="cardio-label">&#11088; Caminata inclinada en cinta</div><div class="cardio-detail">5.5-7 km/h · 6-8% inclinacion · Mayor quema sin impacto articular</div></div>
+        <div class="cardio-val" style="color:var(--green)">1er</div>
+      </div>
+      <div class="cardio-row">
+        <div><div class="cardio-label">Eliptica</div><div class="cardio-detail">Resistencia 4-6 · Sin impacto articular · Ideal si hay molestia en rodillas</div></div>
+        <div class="cardio-val">2do</div>
+      </div>
+      <div class="cardio-row">
+        <div><div class="cardio-label">Bicicleta spinning</div><div class="cardio-detail">RPM 70-80 · Resistencia 3-4 · Sentado todo el tiempo</div></div>
+        <div class="cardio-val">3ro</div>
+      </div>
+      <div class="tip-green"><strong>Truco Jueves:</strong> Camina al lado del campo de futbol durante el entrenamiento de los chicos. 30 min de caminata sostenida = Zona 2 perfecta. Ni tienes que entrar al gimnasio ese dia.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CORE INTELIGENTE ===================== -->
+<div id="tab-core" class="section">
+  <p class="sec-title">CORE <span>INTELIGENTE</span></p>
+  <p class="sec-desc">Sin crunches diarios. El core funcional se construye con estabilidad, no con flexion repetitiva. Estos ejercicios activan la musculatura profunda que los crunches nunca alcanzan.</p>
+  <div class="pbadge amber">5-7 MINUTOS DIARIOS · POR LA MANANA · ANTES DEL CAFE</div>
+
+  <div class="core-grid">
+    <div class="core-item">
+      <div class="core-icon">&#x1F4D0;</div>
+      <div class="core-name">Plank</div>
+      <div class="core-why">Activa el transverso abdominal — la musculatura mas profunda. Los crunches no llegan a esta capa.</div>
+      <div class="core-badge">20 seg → 60 seg progresivo</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=yeKv5oX_6GY" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+    <div class="core-item">
+      <div class="core-icon">&#x1F426;</div>
+      <div class="core-name">Bird Dog</div>
+      <div class="core-why">Estabilidad lumbar anti-extension. Imprescindible para anos de trabajo sedentario. Activa gluteo medio y multifidos.</div>
+      <div class="core-badge">8 reps cada lado</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=wiFNA3sqjCA" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+    <div class="core-item">
+      <div class="core-icon">&#x1FAB2;</div>
+      <div class="core-name">Dead Bug</div>
+      <div class="core-why">Coordinacion brazo-pierna con columna estabilizada. Ejercicio favorito de fisioterapeutas para prevenir dolor lumbar.</div>
+      <div class="core-badge">8 reps cada lado</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=g_BYB0R-4Ws" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+    <div class="core-item">
+      <div class="core-icon">&#x1F504;</div>
+      <div class="core-name">Pallof Press</div>
+      <div class="core-why">Anti-rotacion pura. Entrena el core para resistir la rotacion — el movimiento mas frecuente en la vida real.</div>
+      <div class="core-badge">10 reps cada lado · cable</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=AH_QZLm_0-s" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+    <div class="core-item">
+      <div class="core-icon">&#x1F4BC;</div>
+      <div class="core-name">Farmer Walk</div>
+      <div class="core-why">Carga en manos mientras caminas erguido — activa el core completo de manera funcional. La columna resiste la carga lateral.</div>
+      <div class="core-badge">30 segundos de marcha</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=Fkzk_RqlYig" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+    <div class="core-item">
+      <div class="core-icon">&#x1F4CF;</div>
+      <div class="core-name">Plank Lateral</div>
+      <div class="core-why">Activa oblicuo externo e interno — da la "forma de V" al torso y reduce la anchura visual de la cintura.</div>
+      <div class="core-badge">20 seg cada lado</div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=K2eTSk8SKIA" target="_blank" rel="noopener" style="margin-top:8px"><span class="yt-icon"></span>Ver en YouTube</a>
+    </div>
+  </div>
+
+  <div class="sdiv">Secuencia matutina — 5-7 min</div>
+  <div class="day-card" id="coreR">
+    <div class="day-header" onclick="toggleCard('coreR')">
+      <div class="day-num" style="font-size:16px;min-width:40px">AM</div>
+      <div class="day-info"><div class="day-name">Rutina Core Diaria</div><div class="day-focus">Todos los dias · Sin equipo · Antes del cafe</div></div>
+      <div class="chev"></div>
+    </div>
+    <div class="day-body">
+      <table><thead><tr><th>#</th><th>Ejercicio</th><th>Series x Tiempo/Reps</th></tr></thead><tbody>
+        <tr><td>1</td><td><div class="exn">Cat-Cow</div><div class="exd">Moviliza la columna antes de todo</div></td><td><span class="bs">10 reps</span></td></tr>
+        <tr><td>2</td><td><div class="exn">Bird Dog</div><div class="exd">Pausa 2 seg con brazo y pierna extendidos</div></td><td><span class="bs">8 c/lado</span></td></tr>
+        <tr><td>3</td><td><div class="exn">Dead Bug</div><div class="exd">Espalda baja siempre en contacto con el suelo</div></td><td><span class="bs">8 c/lado</span></td></tr>
+        <tr><td>4</td><td><div class="exn">Plank</div><div class="exd">Sem 1-2: 20 seg · Sem 3-4: 30 seg · Mes 2: 45 seg · Mes 3+: 60 seg</div></td><td><span class="bs">2 series progresivas</span></td></tr>
+        <tr><td>5</td><td><div class="exn">Plank lateral</div><div class="exd">Cadera arriba. Puedes apoyar la rodilla al inicio.</div></td><td><span class="bs">2 x 15 seg c/lado</span></td></tr>
+      </tbody></table>
+      <div class="tip-green">5 min de este trabajo supera el efecto de 30 crunches. Activa las 3 capas del abdomen — transverso, oblicuos y recto — que los crunches no alcanzan.</div>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:14px"><strong>Por que no crunches:</strong> Con 114 cm de cintura existe una posibilidad de hiperlordosis lumbar compensatoria. Los crunches la agravan. Esta secuencia la corrige mientras fortalece el abdomen.</div>
+</div>
+
+<!-- ===================== NUTRICION REAL ===================== -->
+<div id="tab-nutricion" class="section">
+  <p class="sec-title">NUTRICION <span>REAL</span></p>
+  <p class="sec-desc">Disenada para vida corporativa, hijos en futbol, reuniones y comidas fuera de casa. Sin pesar alimentos en esta fase. El sistema tiene que funcionar en la vida real de Panama.</p>
+
+  <div class="sdiv">El metodo del plato</div>
+  <div class="plate-visual">
+    <div class="plate-title">Metodo del Plato</div>
+    <div class="plate-sub">Aplica esto en almuerzo y cena — en casa, restaurante o reunion. Sin bascula.</div>
+    <div class="plate-sections">
+      <div class="plate-sec veg">
+        <div class="plate-pct">50%</div>
+        <div class="plate-name">VEGETALES</div>
+        <div class="plate-example">Ensalada · Repollo · Pepino · Tomate · Zanahoria · Espinaca · Brocoli</div>
+      </div>
+      <div class="plate-sec pro">
+        <div class="plate-pct">25%</div>
+        <div class="plate-name">PROTEINA</div>
+        <div class="plate-example">Pollo · Pavo · Res magra · Atun · Pargo · Corvina · Huevos</div>
+      </div>
+      <div class="plate-sec carb">
+        <div class="plate-pct">25%</div>
+        <div class="plate-name">CARBOHIDRATO</div>
+        <div class="plate-example">Arroz integral · Yuca · Name · Guandu · Platano verde</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv">Estructura diaria — opciones practicas</div>
+
+  <div class="meal-block">
+    <div class="meal-head"><div class="meal-time">7AM</div><div><div class="meal-title">Desayuno</div><div class="meal-tag">Proteina + grasa saludable · Sin azucar anadida · 5-10 min de preparacion</div></div></div>
+    <div class="meal-body">
+      <div class="opt-grid">
+        <div class="opt-item"><div class="opt-label">Opcion 1 — Lo clasico</div><ul class="opt-items"><li>3 huevos (al gusto)</li><li>Queso blanco bajo en grasa</li><li>Cafe sin azucar</li><li>1 rebanada pan integral (opcional)</li></ul></div>
+        <div class="opt-item"><div class="opt-label">Opcion 2 — Rapido</div><ul class="opt-items"><li>Yogurt griego sin azucar (170g)</li><li>1 fruta (papaya, banano)</li><li>1 cda mani natural</li><li>Cafe sin azucar</li></ul></div>
+      </div>
+      <div class="tip">Sin proteina en el desayuno, el hambre vuelve 2 horas despues y arruina el deficit calorico.</div>
+    </div>
+  </div>
+
+  <div class="meal-block">
+    <div class="meal-head"><div class="meal-time">10AM</div><div><div class="meal-title">Snack Manana</div><div class="meal-tag">Solo si hay hambre real · No comas por costumbre</div></div></div>
+    <div class="meal-body">
+      <div class="opt-grid">
+        <div class="opt-item"><div class="opt-label">Opcion rapida</div><ul class="opt-items"><li>1-2 huevos duros (preparados antes)</li><li>O: punado de nueces o mani natural</li></ul></div>
+        <div class="opt-item"><div class="opt-label">En reunion / fuera</div><ul class="opt-items"><li>Omite si no hay buena opcion</li><li>Agua para controlar el hambre</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meal-block">
+    <div class="meal-head"><div class="meal-time">1PM</div><div><div class="meal-title">Almuerzo — comida principal</div><div class="meal-tag">Aplica el metodo del plato · Funciona en cualquier restaurante</div></div></div>
+    <div class="meal-body">
+      <div class="opt-grid">
+        <div class="opt-item"><div class="opt-label">En casa</div><ul class="opt-items"><li>Pollo o res a la plancha</li><li>Arroz integral o yuca (1/2 taza)</li><li>Ensalada grande</li><li>Agua — sin jugo</li></ul></div>
+        <div class="opt-item"><div class="opt-label">En restaurante</div><ul class="opt-items"><li>Pide la salsa aparte</li><li>Sustituye arroz blanco por ensalada</li><li>Doble porcion de proteina si puedes</li><li>Evita frituras como guarnicion</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meal-block">
+    <div class="meal-head"><div class="meal-time">4PM</div><div><div class="meal-title">Pre-entreno / Merienda</div><div class="meal-tag">Dias de gimnasio: si · Dias de descanso: solo si hay hambre</div></div></div>
+    <div class="meal-body">
+      <div class="opt-grid">
+        <div class="opt-item"><div class="opt-label">Dias de gimnasio</div><ul class="opt-items"><li>1 banano + 1-2 huevos duros</li><li>O: shake de proteina con fruta</li><li>30-45 min antes de entrenar</li></ul></div>
+        <div class="opt-item"><div class="opt-label">Dias sin gimnasio</div><ul class="opt-items"><li>Omite si el almuerzo fue suficiente</li><li>Si hay hambre: yogurt griego solo</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meal-block">
+    <div class="meal-head"><div class="meal-time">7PM</div><div><div class="meal-title">Cena — ligera, alta en proteina</div><div class="meal-tag">Minimizar carbohidratos en la noche</div></div></div>
+    <div class="meal-body">
+      <div class="opt-grid">
+        <div class="opt-item"><div class="opt-label">Cena rapida</div><ul class="opt-items"><li>Pargo o corvina al horno</li><li>Ensalada abundante</li><li>Sin arroz ni pan en la noche</li></ul></div>
+        <div class="opt-item"><div class="opt-label">Cena familiar</div><ul class="opt-items"><li>Come lo mismo que la familia</li><li>Duplica la porcion de ensalada</li><li>Reduce arroz a la mitad</li><li>Agrega proteina extra si la cena es liviana</li></ul></div>
+      </div>
+      <div class="tip"><strong>La regla de la noche:</strong> Proteina si. Vegetales si. Arroz/pan/pasta: lo menos posible. No es prohibicion — es reduccion inteligente.</div>
+    </div>
+  </div>
+
+  <div class="sdiv">Reglas que funcionan en la vida real</div>
+  <div class="rule-grid">
+    <div class="rule-item"><div class="rule-icon">&#x1F4A7;</div><div class="rule-text"><strong>1 vaso de agua antes de cada comida</strong><span>Reduce el hambre y mejora la digestion. 2.5-3 litros totales al dia.</span></div></div>
+    <div class="rule-item"><div class="rule-icon">&#x1F969;</div><div class="rule-text"><strong>Proteina en desayuno, almuerzo y cena — siempre</strong><span>Preserva el musculo que construyes, te mantiene saciado y quema calorias solo al digerirse.</span></div></div>
+    <div class="rule-item"><div class="rule-icon">&#x1F37A;</div><div class="rule-text"><strong>Alcohol: maximo 1 vez por semana</strong><span>Bloquea la oxidacion de grasa 12-24h. No es prohibicion total, pero si reduccion significativa.</span></div></div>
+    <div class="rule-item"><div class="rule-icon">&#x1F634;</div><div class="rule-text"><strong>Sueno 7-8 horas — parte del plan</strong><span>Con menos de 6h sube el cortisol y la grelina. Hace casi imposible perder grasa abdominal.</span></div></div>
+    <div class="rule-item"><div class="rule-icon">&#x1F4F1;</div><div class="rule-text"><strong>No contar calorias las primeras 4 semanas</strong><span>Solo aplica el metodo del plato. Comenzar contando todo es la razon #1 por la que la gente abandona.</span></div></div>
+  </div>
+</div>
+
+<!-- ===================== RECETAS ===================== -->
+<div id="tab-recetas" class="section">
+  <p class="sec-title">RECETAS <span>PANAMA</span></p>
+  <p class="sec-desc">Ingredientes de facil acceso en supermercados panamenios. Sin crustaceos ni mariscos. Alta proteina, sabores locales, preparacion rapida para vida ocupada.</p>
+
+  <div class="sdiv">Desayunos</div>
+  <div class="recipe-grid">
+    <div class="recipe-card" id="r1">
+      <div class="recipe-header" onclick="toggleCard('r1')">
+        <div class="recipe-emoji">&#x1F373;</div>
+        <div class="recipe-info"><div class="recipe-title">Tortilla de Claras con Patacon Light</div><div class="recipe-meta">Desayuno · 20 min · Alta proteina</div></div>
+        <div class="rkcal">420<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">4 claras</span>de huevo</li>
+              <li><span class="ing-amt">1 huevo</span>entero</li>
+              <li><span class="ing-amt">1</span>platano verde pequeno</li>
+              <li><span class="ing-amt">30g</span>queso blanco bajo grasa</li>
+              <li><span class="ing-amt">1/4 taza</span>pimenton + cebolla</li>
+              <li><span class="ing-amt">1 cdta</span>aceite de oliva</li>
+              <li>Sal, culantro, ajo en polvo</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Corta platano, aplana y hornea 200C por 15 min sin aceite.</li>
+              <li>Bate claras + huevo con sal y ajo.</li>
+              <li>Saltea pimenton y cebolla 2 min.</li>
+              <li>Agrega huevo. Cocina tapado a fuego medio.</li>
+              <li>Sirve con queso encima y patacones.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">35g <span>Proteina</span></div><div class="mpill">42g <span>Carbs</span></div><div class="mpill">10g <span>Grasa</span></div></div>
+        <div class="rtip">El patacon horneado tiene la misma textura crujiente que el frito pero con 70% menos grasa.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r2">
+      <div class="recipe-header" onclick="toggleCard('r2')">
+        <div class="recipe-emoji">&#x1F963;</div>
+        <div class="recipe-info"><div class="recipe-title">Avena Proteica con Papaya y Mani</div><div class="recipe-meta">Desayuno rapido · 10 min</div></div>
+        <div class="rkcal">380<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">1/2 taza</span>avena en hojuelas</li>
+              <li><span class="ing-amt">1 scoop</span>proteina whey</li>
+              <li><span class="ing-amt">1 taza</span>agua o leche descremada</li>
+              <li><span class="ing-amt">1 taza</span>papaya picada</li>
+              <li><span class="ing-amt">1 cdta</span>mani natural</li>
+              <li>Canela al gusto</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Cocina la avena 3-4 min revolviendo.</li>
+              <li>Deja enfriar 2 min. Agrega proteina disuelta en agua.</li>
+              <li>Sirve con papaya, mani y canela.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">38g <span>Proteina</span></div><div class="mpill">40g <span>Carbs</span></div><div class="mpill">8g <span>Grasa</span></div></div>
+        <div class="rtip">La papaya tiene enzimas digestivas (papaina) que reducen la inflamacion.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv">Almuerzos</div>
+  <div class="recipe-grid">
+    <div class="recipe-card" id="r3">
+      <div class="recipe-header" onclick="toggleCard('r3')">
+        <div class="recipe-emoji">&#x1F357;</div>
+        <div class="recipe-info"><div class="recipe-title">Pollo al Culantro con Arroz Integral</div><div class="recipe-meta">Almuerzo · 30 min · El clasico fit panameno</div></div>
+        <div class="rkcal">580<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">180g</span>pechuga de pollo</li>
+              <li><span class="ing-amt">1/2 taza</span>arroz integral crudo</li>
+              <li><span class="ing-amt">1 manojo</span>culantro picado</li>
+              <li><span class="ing-amt">2 dientes</span>ajo</li>
+              <li><span class="ing-amt">1 cdta</span>aceite de oliva</li>
+              <li><span class="ing-amt">2 tazas</span>ensalada mixta</li>
+              <li>Limon, sal, oregano</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Marina el pollo con ajo, culantro, limon, oregano 15 min.</li>
+              <li>Cocina arroz integral (1:2 agua, 35 min).</li>
+              <li>Sella el pollo 5-6 min por lado.</li>
+              <li>Sirve con ensalada aderezada con limon.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">48g <span>Proteina</span></div><div class="mpill">55g <span>Carbs</span></div><div class="mpill">10g <span>Grasa</span></div></div>
+        <div class="rtip">Ideal para meal prep del domingo — rinde para 3 dias entre semana.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r4">
+      <div class="recipe-header" onclick="toggleCard('r4')">
+        <div class="recipe-emoji">&#x1FAD9;</div>
+        <div class="recipe-info"><div class="recipe-title">Sancocho de Pollo Fit</div><div class="recipe-meta">45 min · Batch cooking 3 dias</div></div>
+        <div class="rkcal">480<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (3 porciones)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">500g</span>pechuga sin piel</li>
+              <li><span class="ing-amt">200g</span>name o otoe</li>
+              <li><span class="ing-amt">1</span>mazorca en trozos</li>
+              <li><span class="ing-amt">1</span>cebolla mediana</li>
+              <li><span class="ing-amt">3 dientes</span>ajo</li>
+              <li>Culantro, aji chombo, sal</li>
+              <li><span class="ing-amt">1.5 L</span>agua</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Hierve agua con pollo, cebolla, ajo y culantro 25 min.</li>
+              <li>Retira el pollo, desmecha y reserva.</li>
+              <li>Agrega name y maiz 15 min mas.</li>
+              <li>Reincorpora el pollo. Ajusta sal. Aji chombo entero.</li>
+              <li>Guarda 3 dias en nevera.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">45g <span>Proteina</span></div><div class="mpill">35g <span>Carbs</span></div><div class="mpill">8g <span>Grasa</span></div></div>
+        <div class="rtip">Haz el sancocho el domingo y tienes almuerzo listo para lunes, martes y miercoles.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r5">
+      <div class="recipe-header" onclick="toggleCard('r5')">
+        <div class="recipe-emoji">&#x1F41F;</div>
+        <div class="recipe-info"><div class="recipe-title">Bowl de Atun con Yuca al Vapor y Aguacate</div><div class="recipe-meta">Almuerzo rapido · 25 min</div></div>
+        <div class="rkcal">520<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">2 latas</span>atun en agua</li>
+              <li><span class="ing-amt">150g</span>yuca</li>
+              <li><span class="ing-amt">1/4</span>aguacate maduro</li>
+              <li><span class="ing-amt">1/2</span>tomate + cebolla morada</li>
+              <li>Limon, culantro, sal, pimienta</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Hierve la yuca hasta tierna (~20 min).</li>
+              <li>Mezcla atun con cebolla, tomate, culantro y limon.</li>
+              <li>Aplasta el aguacate con sal y limon.</li>
+              <li>Sirve yuca de base, atun encima, aguacate al lado.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">44g <span>Proteina</span></div><div class="mpill">40g <span>Carbs</span></div><div class="mpill">14g <span>Grasa</span></div></div>
+        <div class="rtip">El atun en agua es la proteina mas economica por gramo en cualquier supermercado de Panama.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r6">
+      <div class="recipe-header" onclick="toggleCard('r6')">
+        <div class="recipe-emoji">&#x1F969;</div>
+        <div class="recipe-info"><div class="recipe-title">Bistec Magro con Guandu y Repollo</div><div class="recipe-meta">Almuerzo · 25 min · Alto hierro</div></div>
+        <div class="rkcal">610<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">150g</span>bistec magro (lomo o bola negra)</li>
+              <li><span class="ing-amt">1/2 taza</span>guandu cocido</li>
+              <li><span class="ing-amt">1 taza</span>repollo rallado</li>
+              <li><span class="ing-amt">1 cdta</span>aceite de oliva</li>
+              <li>Ajo, sal, pimienta, tomillo, limon</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Marina el bistec con ajo, sal, pimienta 10 min.</li>
+              <li>Sella en sarten muy caliente, 3 min por lado.</li>
+              <li>Repollo rallado fino con limon y sal.</li>
+              <li>Sirve con guandu caliente.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">42g <span>Proteina</span></div><div class="mpill">45g <span>Carbs</span></div><div class="mpill">16g <span>Grasa</span></div></div>
+        <div class="rtip">El guandu tiene 9g proteina + 7g fibra por media taza. La ensalada de repollo es la guarnicion mas comun de Panama.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv">Cenas rapidas</div>
+  <div class="recipe-grid">
+    <div class="recipe-card" id="r7">
+      <div class="recipe-header" onclick="toggleCard('r7')">
+        <div class="recipe-emoji">&#x1F957;</div>
+        <div class="recipe-info"><div class="recipe-title">Ensalada de Pollo con Aguacate</div><div class="recipe-meta">Cena · 20 min · Baja en carbs</div></div>
+        <div class="rkcal">420<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">150g</span>pechuga de pollo a la plancha</li>
+              <li><span class="ing-amt">1/4</span>aguacate</li>
+              <li><span class="ing-amt">2 tazas</span>lechugas o espinacas</li>
+              <li><span class="ing-amt">1/2</span>tomate + pepino</li>
+              <li><span class="ing-amt">1 cdta</span>aceite de oliva + limon</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Sazona el pollo con limon, oregano y sal.</li>
+              <li>Cocina 5-6 min por lado. Reposa 3 min, corta en tiras.</li>
+              <li>Arma la ensalada con el pollo encima.</li>
+              <li>Aderezo: aceite + limon + sal.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">40g <span>Proteina</span></div><div class="mpill">12g <span>Carbs</span></div><div class="mpill">18g <span>Grasa</span></div></div>
+        <div class="rtip">El aguacate criollo panameno es mas economico que el Hass importado con igual valor nutricional.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r8">
+      <div class="recipe-header" onclick="toggleCard('r8')">
+        <div class="recipe-emoji">&#x1F41F;</div>
+        <div class="recipe-info"><div class="recipe-title">Pargo o Corvina al Horno con Vegetales</div><div class="recipe-meta">Cena · 35 min · Omega-3</div></div>
+        <div class="rkcal">450<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">200g</span>filete de pargo o corvina</li>
+              <li><span class="ing-amt">1 taza</span>zanahoria + zucchini + pimenton</li>
+              <li><span class="ing-amt">2 dientes</span>ajo + 1 cdta aceite oliva</li>
+              <li>Limon, tomillo, sal, paprika</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Precalienta horno 200C.</li>
+              <li>Sazona filete y rodea con vegetales en bandeja con aluminio.</li>
+              <li>Tapa y hornea 20 min. Destapa 5 min para dorar.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">42g <span>Proteina</span></div><div class="mpill">15g <span>Carbs</span></div><div class="mpill">14g <span>Grasa</span></div></div>
+        <div class="rtip">Pargo y corvina son peces — no crustaceos. El omega-3 mejora el sueno y reduce la inflamacion post-entrenamiento.</div>
+      </div>
+    </div>
+    <div class="recipe-card" id="r9">
+      <div class="recipe-header" onclick="toggleCard('r9')">
+        <div class="recipe-emoji">&#x1F32E;</div>
+        <div class="recipe-info"><div class="recipe-title">Wrap de Pavo con Tortilla de Maiz y Pico de Gallo</div><div class="recipe-meta">Cena rapida · 15 min</div></div>
+        <div class="rkcal">460<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">150g</span>pechuga de pavo</li>
+              <li><span class="ing-amt">2</span>tortillas de maiz</li>
+              <li><span class="ing-amt">1</span>tomate + cebolla blanca</li>
+              <li><span class="ing-amt">1/4</span>aguacate (opcional)</li>
+              <li>Culantro, limon, sal, pimienta</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Cocina el pavo a la plancha. Corta en tiras.</li>
+              <li>Pico de gallo: tomate + cebolla + culantro + limon + sal.</li>
+              <li>Calienta tortillas 1 min en comal seco.</li>
+              <li>Arma con pavo, pico de gallo y aguacate.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">38g <span>Proteina</span></div><div class="mpill">40g <span>Carbs</span></div><div class="mpill">12g <span>Grasa</span></div></div>
+        <div class="rtip">La tortilla de maiz tiene el doble de fibra que la de harina. El pavo es mas magro que el pollo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sdiv">Post-entreno</div>
+  <div class="recipe-grid">
+    <div class="recipe-card" id="r10">
+      <div class="recipe-header" onclick="toggleCard('r10')">
+        <div class="recipe-emoji">&#x26A1;</div>
+        <div class="recipe-info"><div class="recipe-title">Shake de Maracuya y Proteina</div><div class="recipe-meta">Post-entrenamiento · 5 min</div></div>
+        <div class="rkcal">280<small>kcal</small></div><div class="chev"></div>
+      </div>
+      <div class="recipe-body">
+        <div class="recipe-cols">
+          <div><div class="rsec">Ingredientes (1 porcion)</div>
+            <ul class="ing-list">
+              <li><span class="ing-amt">1 scoop</span>proteina whey vainilla</li>
+              <li><span class="ing-amt">2 cdas</span>pulpa de maracuya</li>
+              <li><span class="ing-amt">1</span>banano pequeno</li>
+              <li><span class="ing-amt">200ml</span>agua fria o hielo</li>
+            </ul>
+          </div>
+          <div><div class="rsec">Preparacion</div>
+            <ol class="step-list">
+              <li>Con licuadora: mezcla todo 30 seg.</li>
+              <li>Sin licuadora: proteina con agua + maracuya, banano aparte.</li>
+              <li>Consume dentro de 30-45 min post-entreno.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="macro-pills"><div class="mpill">32g <span>Proteina</span></div><div class="mpill">30g <span>Carbs</span></div><div class="mpill">3g <span>Grasa</span></div></div>
+        <div class="rtip">El maracuya crece en Panama. Banano + whey post-entrenamiento es la combinacion mas efectiva para recuperacion.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PROGRESION ===================== -->
+<div id="tab-progreso" class="section">
+  <p class="sec-title">PLAN DE <span>PROGRESION</span></p>
+  <p class="sec-desc">12 semanas en 3 fases. La adaptacion fisica ocurre en semanas 3-4, no en la primera semana. Progresion inteligente previene lesiones y produce mejores resultados.</p>
+
+  <div class="phase-grid">
+    <div class="phase-row"><div class="phase-num">1</div><div class="phase-content"><strong>Semanas 1-4 · Adaptacion y Tecnica</strong><span>Aprende los patrones de movimiento. Usa pesos con los que terminas las series sintiendo que podias hacer 4-5 mas — eso es correcto. El objetivo es neuronal: que el sistema nervioso aprenda los movimientos.<br><br>Mide al inicio: peso en ayunas (lunes), foto frontal y lateral, circunferencia de cintura. No midas cada dia.</span></div></div>
+    <div class="phase-row"><div class="phase-num">2</div><div class="phase-content"><strong>Semanas 5-8 · Construccion</strong><span>Aumenta pesos un 5-10% en ejercicios principales. Anade una serie (3 pasan a 4). La Zona 2 sube de 25 a 35 min.<br><br>Empiezas a notar cambios reales: la cintura reduce, la ropa queda diferente, la energia mejora.</span></div></div>
+    <div class="phase-row"><div class="phase-num">3</div><div class="phase-content"><strong>Semanas 9-12 · Intensificacion</strong><span>Introduce superseries en el Dia B: Press pecho + Remo en cable sin descanso entre ellos, luego descansa 90 seg. Duplica el volumen en el mismo tiempo.<br><br>Nutricion: si el progreso se estanco, aplica el metodo del plato mas estrictamente en la cena.</span></div></div>
+  </div>
+
+  <div class="sdiv">Metricas de seguimiento</div>
+  <div class="progress-grid">
+    <div class="progress-card"><div class="prog-header"><div class="prog-title">Meta de peso — 12 semanas</div><div class="prog-tag">-6 a -9 kg</div></div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%"></div></div><div class="prog-desc">0.5-0.7 kg por semana. Perdida mas rapida = mayor riesgo de perder musculo. El objetivo es recomposicion corporal.</div></div>
+    <div class="progress-card"><div class="prog-header"><div class="prog-title">Reduccion de cintura</div><div class="prog-tag">-8 a -12 cm</div></div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%"></div></div><div class="prog-desc">Mide al nivel del ombligo, lunes en ayunas. Meta: por debajo de 102 cm en hombres.</div></div>
+    <div class="progress-card"><div class="prog-header"><div class="prog-title">Fotos de progreso</div><div class="prog-tag">Cada 2 semanas</div></div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%"></div></div><div class="prog-desc">Misma luz, misma ropa, misma posicion. La foto registra la recomposicion que la bascula no captura.</div></div>
+    <div class="progress-card"><div class="prog-header"><div class="prog-title">Peso en ejercicios</div><div class="prog-tag">Registro semanal</div></div><div class="prog-bar-bg"><div class="prog-bar-fill" style="width:0%"></div></div><div class="prog-desc">Guarda cuanto peso usas en cada ejercicio. Si en semana 4 puedes hacer 12 reps donde en semana 1 haciais 8, eso es progreso real.</div></div>
+  </div>
+
+  <div style="margin-top:20px">
+    <div class="tip-red"><strong>Aviso medico:</strong> Este plan no reemplaza la evaluacion medica. Con 42 anos y periodo sedentario previo, un chequeo basico (presion arterial, glucosa, perfil lipidico) antes de iniciar es muy recomendable. Si sientes dolor en el pecho, mareos o dificultad respiratoria durante el ejercicio, detente y consulta a un medico.</div>
+  </div>
+</div>
+
+<script>
+// Safari-compatible tab switching using data attributes
+// Using addEventListener instead of inline onclick for better Safari compatibility
+document.addEventListener('DOMContentLoaded', function() {
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = this.getAttribute('data-tab');
+      // Update tabs
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      // Update sections
+      var sections = document.querySelectorAll('.section');
+      sections.forEach(function(s) { s.style.display = 'none'; s.classList.remove('active'); });
+      var targetSection = document.getElementById('tab-' + target);
+      if (targetSection) {
+        targetSection.style.display = 'block';
+        targetSection.classList.add('active');
+      }
+      // Scroll to top of content
+      document.querySelector('.tabs-wrap').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      window.scrollTo(0, 0);
+    });
+    // Touch events for better iPad response
+    tab.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      this.click();
+    }, {passive: false});
+  });
+
+  // Open first day card by default
+  var firstCard = document.getElementById('sw1');
+  if (firstCard) firstCard.classList.add('open');
+});
+
+// Toggle accordion cards — Safari-compatible
+function toggleCard(id) {
+  var card = document.getElementById(id);
+  if (card) {
+    card.classList.toggle('open');
+  }
+}
+</script>
+</body>
+</html>
